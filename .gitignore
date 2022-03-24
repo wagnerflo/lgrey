@@ -1,7 +1,6 @@
-aixlog.hpp
-args.hxx
 cmake_install.cmake
 CMakeCache.txt
 CMakeFiles/
 Makefile
-lgrey
+lgreylist
+lgreyclean

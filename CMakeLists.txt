@@ -4,13 +4,13 @@ project ( lgrey )
 find_path ( ARGS_HXX_INCLUDE args.hxx REQUIRED PATHS . )
 find_path ( AIXLOG_HPP_INCLUDE aixlog.hpp REQUIRED PATHS . )
 
-add_executable ( lgrey
+add_executable ( lgreylist
   src/main.cc
 )
 
-target_compile_features( lgrey PUBLIC c_std_17 )
-target_include_directories ( lgrey PUBLIC
+target_compile_features( lgreylist PUBLIC c_std_17 )
+target_compile_options( lgreylist PRIVATE -Wall -Wextra -Wconversion  )
+target_include_directories ( lgreylist PUBLIC
   ${ARGS_HXX_INCLUDE}
   ${AIXLOG_HPP_INCLUDE}
 )
-target_compile_options( lgrey PRIVATE -Wall -Wextra -Wconversion -Werror )
