@@ -1,0 +1,89 @@
+.\" Copyright (c) 2012, Florian Wagner <florian@wagner-flo.net>.
+.\" All rights reserved.
+.\"
+.\" Redistribution and use in source and binary forms, with or without
+.\" modification, are permitted provided that the following conditions are
+.\" met:
+.\"
+.\" 1. Redistributions of source code must retain the above copyright notice,
+.\" this list of conditions and the following disclaimer.
+.\"
+.\" 2. Redistributions in binary form must reproduce the above copyright
+.\" notice, this list of conditions and the following disclaimer in the
+.\" documentation and/or other materials provided with the distribution.
+.\"
+.\" THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
+.\" "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
+.\" LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR
+.\" A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE REGENTS OR
+.\" CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL,
+.\" EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO,
+.\" PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR
+.\" PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF
+.\" LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING
+.\" NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
+.\" SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+.\"
+.Dd July 15 2012
+.Dt TGREYLIST 8
+.Os
+.
+.Sh NAME
+.Nm tgreylist
+.Nd greylisting for the Postfix access policy protocol using the trival
+database system (tdb) as backend
+.
+.Sh SYNOPSIS
+.Nm
+.Op Ar -D database
+.Op Ar -d delay
+.Op Ar -t timeout
+.Op Ar -l lifetime
+.Op Ar -4 v4mask
+.Op Ar -6 v6mask
+.
+.Sh DESCRIPTION
+The
+.Nm
+utility implements greylisting using the Postfix access policy protocol
+for communication with said MTA as well as the trivial database system
+(tdb) as back-end for storing triplets.
+.Pp
+After being started it parses its commandline options and if successful
+enters a loop until a terminating signal is recieved:
+.Bl -enum
+.It
+Read from standard input and parse it as a request according to the
+Postfix access policy protocol specifications. Any invalid input is
+logged and ignored. If the request as a whole is invalid also log
+this, do not reply to it and start parsing again.
+.It
+Build a unique triplet using the
+.Em sender
+and
+.Em recipient
+as well as either the
+.Em client_name
+or
+.Em client_address
+attributes. Precedence goes to the
+.Em client_name ,
+which is stripped of its domain name using a heuristic. If
+.Em client_name
+is not available then
+.Em client_address
+is used instead.
+.It
+Try to open a connection to the backend database if it is not already
+open. Failure to do so will result in the mail being allowed through
+to not impact delivery.
+.El
+.
+.Sh EXIT STATUS
+If
+.Nm
+is unable to successfully parse the commandline options it will exit
+with code 1. Otherwise it will run untill external termination.
+.
+.Sh AUTHOR
+.An Florian Wagner Aq florian@wagner-flo.net .

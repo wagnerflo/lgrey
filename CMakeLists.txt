@@ -8,9 +8,6 @@ add_executable ( lgreylist
   src/main.cc
 )
 
-target_compile_features( lgreylist PUBLIC c_std_17 )
+target_compile_features( lgreylist PUBLIC cxx_std_17 )
 target_compile_options( lgreylist PRIVATE -Wall -Wextra -Wconversion  )
-target_include_directories ( lgreylist PUBLIC
-  ${ARGS_HXX_INCLUDE}
-  ${AIXLOG_HPP_INCLUDE}
-)
+target_include_directories ( lgreylist PUBLIC ext/headerfu/include )
