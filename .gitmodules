@@ -1,3 +1,6 @@
 [submodule "ext/headerfu"]
 	path = ext/headerfu
 	url = https://github.com/wagnerflo/headerfu.git
+[submodule "ext/lmdbxx"]
+	path = ext/lmdbxx
+	url = https://github.com/drycpp/lmdbxx.git
