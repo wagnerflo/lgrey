@@ -1,4 +1,4 @@
-cmake_minimum_required( VERSION 3.14 )
+cmake_minimum_required ( VERSION 3.14 )
 project ( lgrey )
 
 find_path ( ARGS_HXX_INCLUDE args.hxx REQUIRED PATHS . )
